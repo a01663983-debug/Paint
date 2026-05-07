@@ -10,6 +10,8 @@ Exercises
 """
 
 from turtle import *
+from collections import namedtuple
+import math
 
 from freegames import vector
 
@@ -35,29 +37,43 @@ def square(start, end):
 
     end_fill()
 
-
-def circle(start, end):
+def draw_circle(start, end):
     """Draw circle from start to end."""
     up()
-    goto(start.x,start.y)
+    goto(start.x, start.y)
     down()
     begin_fill()
-    import turtle
-    radio = (((end.x - start.x) ** 2) + ((end.y - start.y) ** 2)) ** 0.5
-    turtle.circle(radio)
-    
+    radio = ((end.x - start.x)**2 + (end.y - start.y)**2) ** 0.5
+    circle(radio)  
     end_fill()
-
 
 def rectangle(start, end):
     """Draw rectangle from start to end."""
-    pass  # TODO
-
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
+    width = end.x - start.x
+    height = end.y - start.y
+    for _ in range(2):
+        forward(width)
+        left(90)
+        forward(height)
+        left(90)
+    end_fill()
 
 def triangle(start, end):
-    """Draw triangle from start to end."""
-    pass  # TODO
-
+    """Draw equilateral triangle from start to end."""
+    lado = math.sqrt((end.x - start.x)**2 + (end.y - start.y)**2)
+    up()
+    goto(start.x, start.y)
+    setheading(towards(end.x, end.y))
+    down()
+    begin_fill()
+    for _ in range(3):
+        forward(lado)
+        left(120)
+    end_fill()
 
 def tap(x, y):
     """Store starting point or draw shape."""
@@ -87,10 +103,10 @@ onkey(lambda: color('white'), 'W')
 onkey(lambda: color('green'), 'G')
 onkey(lambda: color('blue'), 'B')
 onkey(lambda: color('red'), 'R')
-onkey(lambda: color('purple'), 'P') # <-- Nuevo color agregado aquí
+onkey(lambda: color('purple'), 'P')
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
-onkey(lambda: store('shape', circle), 'c')
+onkey(lambda: store('shape', draw_circle), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
 done()
